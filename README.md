@@ -21,8 +21,13 @@ Analyze FitBit Fitness Tracker App data to gain insights into how consumers are 
 ## Stakeholders
 
 Primary Stakeholders:
-- Urška Sršen: Bellabeat's Cofounder and Chief Creative Officer.
--  Sando Mur: Mathematician and another Bellabeat's Cofounder, key member of the Bellabeat executive team.
+* Urška Sršen: Bellabeat's Cofounder and Chief Creative Officer.
+* Sando Mur: Mathematician and another Bellabeat's Cofounder, key member of the Bellabeat executive team.
 
 Secondary Stakeholders:
--  Bellabeat Marketing Analytics Team:  A team of data anlysts responsible for collecting, analyzing, and reporting data that helps guide Bellabeat's marketing strategy.
+* Bellabeat Marketing Analytics Team:  A team of data anlysts responsible for collecting, analyzing, and reporting data that helps guide Bellabeat's marketing strategy.
+
+## Prepare
+
+* First, we have to understand how data is generated and collected in this phase of analyis: Our Data Source is [Kaggle](https://www.kaggle.com/datasets/arashnic/fitbit). Please refer to this [link](https://www.fitabase.com/media/1930/fitabasedatadictionary102320.pdf) for documentation of the dataset.
+* Second, we need to make sure that data is unbiased and credibe: Our dataset contains 18 CSV files and data is from 30 FitBit users who consented to the submission of personal tracker data via Amazon Mechanical Turk. Although this dataset is reliable, original, and comprehensive, there are two main concenrs about it. Firstly, the sample size is small and most data is recorded during certain days of the week. Secondly, Data is outdated for 6 years as the study was conducted in 2016. Also, demographic information such as gender was not included, which is critical to this project as Bellabeat's product line caters for women. 
