@@ -1,5 +1,5 @@
 # Bellabeat-Capstone-Project
-<img width="327" alt="Screen Shot 2022-07-01 at 7 09 01 PM" src="https://user-images.githubusercontent.com/108308205/176982858-e25ea450-1f87-45dd-af03-5a59535e2218.png">
+<img width="381" alt="Screen Shot 2022-07-01 at 7 13 03 PM" src="https://user-images.githubusercontent.com/108308205/176982981-5149a1b2-59c6-40fb-8403-cf757d4b0208.png">
 
 Author: Nima Vaziri
 
