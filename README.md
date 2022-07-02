@@ -44,7 +44,7 @@ The tools that were used in the Process phase of this project are Google's BigQu
 
 After uploading the cleaned Datasets to BigQuery, the following were done to ensure that the data is clean before proceeding to the *Analyze Phase*.
 
-```ruby
+```sql
 -- View and examine tables
 
 -- 940 records from DailyActivity table
