@@ -34,3 +34,5 @@ Secondary Stakeholders:
 
 ## Process
 
+The tools that were used in the Process phase of this project are Google's BigQuery and Microsoft Excel. Pre-cleaning of the data was done through Microsoft Excel before the data were stored to BigQuery. 
+- While uploading the dataset to BigQuery, an error occured due to the format of datetime columns. 
