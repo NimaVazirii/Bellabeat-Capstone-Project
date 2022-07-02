@@ -35,4 +35,10 @@ Secondary Stakeholders:
 ## Process
 
 The tools that were used in the Process phase of this project are Google's BigQuery and Microsoft Excel. Pre-cleaning of the data was done through Microsoft Excel before the data were stored to BigQuery. 
+- By going through all 18 CSV files, I decided to structure my analysis based on "DailyActivity", "SleepDay", "MinuteMETs", "HourlyCalories", "Hourlyintensities", and 'HourlySteps" tables.
+- "Dailyintensities", "DailyCalories", and "DailySteps" were not used in this project since all data points from these tables were already included in the "DailyActivity" table.
+- Also, "MinuteCalories", "MinuteIntensities", and "MinuteSteps" were not selected for analysis because all data points from these tables were already included in "Hourly" Tables.
+- Although "HearRate" and "WeightLogInfo" tables would have been useful for this anaysis, there were not utilized due to lack of participants. 
+- 
 - While uploading the dataset to BigQuery, an error occured due to the format of datetime columns. 
+-  
