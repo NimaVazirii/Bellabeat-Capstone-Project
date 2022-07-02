@@ -35,10 +35,11 @@ Secondary Stakeholders:
 ## Process
 
 The tools that were used in the Process phase of this project are Google's BigQuery and Microsoft Excel. Pre-cleaning of the data was done through Microsoft Excel before the data were stored to BigQuery. 
-- By going through all 18 CSV files, I decided to structure my analysis based on "DailyActivity", "SleepDay", "MinuteMETs", "HourlyCalories", "Hourlyintensities", and 'HourlySteps" tables.
-- "Dailyintensities", "DailyCalories", and "DailySteps" were not used in this project since all data points from these tables were already included in the "DailyActivity" table.
-- Also, "MinuteCalories", "MinuteIntensities", and "MinuteSteps" were not selected for analysis because all data points from these tables were already included in "Hourly" Tables.
-- Although "HearRate" and "WeightLogInfo" tables would have been useful for this anaysis, there were not utilized due to lack of participants. 
-- 
-- While uploading the dataset to BigQuery, an error occured due to the format of datetime columns. 
--  
+- By going through all 18 CSV files, I decided to structure my analysis based on *DailyActivity*, *SleepDay*, *MinuteMETs*, *HourlyCalories*, *Hourlyintensities*, and *HourlySteps* tables.
+- *Dailyintensities*, *DailyCalories*, *DailySteps*, *MinuteCalories*, *MinuteIntensities*, and *MinuteSteps* were not used in this project since all data points from these tables were already included in the *DailyActivity* and *Hourly* tables.
+- Although *HearRate* and *WeightLogInfo* tables would have been useful for this anaysis, there were not utilized due to lack of participants. 
+- While uploading the selected datasets to BigQuery, an error occured due to the format of datetime columns. 
+-  To fix the *Formatting* issue, all the above Datasets converted into Microsoft Excel in order to create new datetime columns with *mm/dd/yyyy hh:mm AM/PM Formt*. 
+- Loaded cleaned datasets into new sheets, saved as CSV files, and uploaded into Bigquery.
+
+After uploading the cleaned Datasets to BigQuery, the following were done to ensure that the data is clean before proceeding to the *Analyze Phase*.
