@@ -44,3 +44,4 @@ The tools that were used in the Process phase of this project are Google's BigQu
 
 After uploading the cleaned Datasets to BigQuery, the following were done to ensure that the data is clean before proceeding to the *Analyze Phase*.
 
+[BigQuery ex docx.docx](https://github.com/NimaVazirii/Bellabeat-Capstone-Project/files/9033676/BigQuery.ex.docx.docx)
