@@ -382,3 +382,6 @@ SELECT
   SUM(Total_TimeInBed) / SUM(CASE WHEN Total_TimeInBed > 0 THEN 1 END) AS AvgBedTime
 FROM DailyActivity
 ```
+
+### Critical Insights based on the *Analyze Phase* :
+-
