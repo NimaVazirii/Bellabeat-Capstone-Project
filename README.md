@@ -310,3 +310,75 @@ GROUP BY Id, Date
 - DailyActivity and SleepDay tables were combined into one table.
 - Hourly tables (*HourlyIntensities, HourlyCalories, and HourlySteps*) were combined into one table.
 - HourlyMETSs table was aggregated into daily METs.
+
+## Analyze 
+Analyzing the tables by creating summary statistics is the first task in this phase of analysis.
+
+```sql
+-- Analyze Phase. Created summary stats
+
+WITH DailyActivity AS (
+  SELECT 
+    DailyActivity.Id,
+    UserNumberTable.UserNo,
+    ActivityDate, 
+    SUM(TotalSteps) AS Total_Steps, 
+    SUM(TotalDistance) AS Total_Distance, 
+    SUM(TrackerDistance) AS Total_Tracker_Distance, 
+    SUM(LoggedActivitiesDistance) AS Total_LoggedActivitiesDistance,	
+    SUM(VeryActiveDistance) AS Total_VeryActiveDistance,	
+    SUM(ModeratelyActiveDistance) AS Total_ModeratelyActiveDistance,	
+    SUM(LightActiveDistance) AS Total_LightActiveDistance,	
+    SUM(SedentaryActiveDistance) AS Total_SedentaryActiveDistance,	
+    SUM(VeryActiveMinutes) AS Total_VeryActiveMinutes,
+    SUM(FairlyActiveMinutes) AS Total_FairlyActiveMinutes,
+    SUM(LightlyActiveMinutes) AS Total_LightlyActiveMinutes,
+    SUM(SedentaryMinutes) AS Total_SedentaryMinutes,
+    SUM(Calories) AS Total_Calories,
+    IFNULL(SUM(TotalSleepRecords),0) AS Total_SleepRecords,
+    IFNULL(SUM(TotalMinutesAsleep),0) AS Total_MinutesAsleep,
+    IFNULL(SUM(TotalTimeInBed),0) AS Total_TimeInBed,
+  FROM `gda-course-4-332812.Capstone.DailyActivity` AS DailyActivity
+  LEFT JOIN 
+    (SELECT
+      Id,
+      SleepDay,
+      TotalSleepRecords,
+      TotalMinutesAsleep,
+      TotalTimeInBed,
+      COUNT(*) AS Dupes
+    FROM `gda-course-4-332812.Capstone.SleepDay` AS SleepDay1
+    GROUP BY Id,
+      SleepDay,
+      TotalSleepRecords,
+      TotalMinutesAsleep,
+      TotalTimeInBed
+    HAVING Dupes = 1
+    ORDER BY Id,
+      SleepDay,
+      TotalSleepRecords,
+      TotalMinutesAsleep,
+      TotalTimeInBed) AS SleepDay1
+  ON DailyActivity.Id = SleepDay1.Id
+  AND DailyActivity.ActivityDate = SleepDay1.SleepDay
+  LEFT JOIN `gda-course-4-332812.Capstone.UserNumberTable` AS UserNumberTable
+  ON DailyActivity.Id = UserNumberTable.Id
+  GROUP BY DailyActivity.Id, UserNumberTable.UserNo, DailyActivity.ActivityDate
+  ORDER BY DailyActivity.Id, UserNumberTable.UserNo, DailyActivity.ActivityDate
+)
+SELECT 
+  AVG(Total_Steps) AS AvgSteps,
+  AVG(Total_Distance) AS AvgDistance,
+  AVG(Total_VeryActiveMinutes) AS AvgVeryActiveMins,
+  SUM(Total_VeryActiveMinutes) / SUM(Total_VeryActiveMinutes + Total_FairlyActiveMinutes + Total_LightlyActiveMinutes + Total_SedentaryMinutes) AS VeryActivePerc,
+  AVG(Total_FairlyActiveMinutes) AS AvgFairlyActiveMins,
+  SUM(Total_FairlyActiveMinutes) / SUM(Total_VeryActiveMinutes + Total_FairlyActiveMinutes + Total_LightlyActiveMinutes + Total_SedentaryMinutes) AS FairlyPerc,
+  AVG(Total_LightlyActiveMinutes) AS AvgLightlyActiveMins,
+  SUM(Total_LightlyActiveMinutes) / SUM(Total_VeryActiveMinutes + Total_FairlyActiveMinutes + Total_LightlyActiveMinutes + Total_SedentaryMinutes) AS LightlyActivePerc,
+  AVG(Total_SedentaryMinutes) AS AvgSedentaryMins,
+  SUM(Total_SedentaryMinutes) / SUM(Total_VeryActiveMinutes + Total_FairlyActiveMinutes + Total_LightlyActiveMinutes + Total_SedentaryMinutes) AS SedentaryPerc,
+  AVG(Total_Calories) AS AvgCalories,
+  SUM(Total_MinutesAsleep) / SUM(CASE WHEN Total_MinutesAsleep > 0 THEN 1 END) AS AvgMinsAsleep,
+  SUM(Total_TimeInBed) / SUM(CASE WHEN Total_TimeInBed > 0 THEN 1 END) AS AvgBedTime
+FROM DailyActivity
+```
