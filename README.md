@@ -306,4 +306,7 @@ FROM Minute_METs
 GROUP BY Id, Date
 ```
 
-
+### Brief Summary:
+- DailyActivity and SleepDay tables were combined into one table.
+- Hourly tables (*HourlyIntensities, HourlyCalories, and HourlySteps*) were combined into one table.
+- HourlyMETSs table was aggregated into daily METs.
