@@ -113,7 +113,7 @@ SELECT Id,
   SedentaryMinutes,	
   Calories,
   COUNT(*) AS Dupes
-FROM `gda-course-4-332812.Capstone.DailyActivity` AS DailyActivity
+FROM `expanded-bebop-352104.fitbit.DailyActivity` AS DailyActivity
 GROUP BY Id, 
   ActivityDate, 
   TotalSteps, 
@@ -139,7 +139,7 @@ SELECT
   TotalMinutesAsleep,
   TotalTimeInBed,
   COUNT(*) AS Dupes
-FROM `gda-course-4-332812.Capstone.SleepDay` AS SleepDay1
+FROM `expanded-bebop-352104.fitbit.SleepDay` AS SleepDay1
 GROUP BY Id,
   SleepDay,
   TotalSleepRecords,
@@ -175,7 +175,7 @@ SELECT
   IFNULL(SUM(TotalSleepRecords),0) AS Total_SleepRecords,
   IFNULL(SUM(TotalMinutesAsleep),0) AS Total_MinutesAsleep,
   IFNULL(SUM(TotalTimeInBed),0) AS Total_TimeInBed,
-FROM `gda-course-4-332812.Capstone.DailyActivity` AS DailyActivity
+FROM `expanded-bebop-352104.fitbit.DailyActivity` AS DailyActivity
 LEFT JOIN 
 (SELECT
   Id,
@@ -184,7 +184,7 @@ LEFT JOIN
   TotalMinutesAsleep,
   TotalTimeInBed,
   COUNT(*) AS Dupes
-FROM `gda-course-4-332812.Capstone.SleepDay` AS SleepDay1
+FROM `expanded-bebop-352104.fitbit.SleepDay` AS SleepDay1
 GROUP BY Id,
   SleepDay,
   TotalSleepRecords,
@@ -198,7 +198,7 @@ ORDER BY Id,
   TotalTimeInBed) AS SleepDay1
 ON DailyActivity.Id = SleepDay1.Id
 AND DailyActivity.ActivityDate = SleepDay1.SleepDay
-LEFT JOIN `gda-course-4-332812.Capstone.UserNumberTable` AS UserNumberTable
+LEFT JOIN `expanded-bebop-352104.fitbit.UserNumberTable` AS UserNumberTable
 ON DailyActivity.Id = UserNumberTable.Id
 GROUP BY DailyActivity.Id, UserNumberTable.UserNo, DailyActivity.ActivityDate
 ORDER BY DailyActivity.Id, UserNumberTable.UserNo, DailyActivity.ActivityDate
@@ -212,7 +212,7 @@ SELECT HourlyIntensities.Id, HourlyIntensities.ActivityHour, SUM(TotalIntensity)
     EXTRACT(DAYOFWEEK FROM HourlyIntensities.ActivityHour) AS DayName,
     EXTRACT(Hour FROM HourlyIntensities.ActivityHour) AS Hour,
     COUNT(*) AS Duplicates
-FROM `gda-course-4-332812.Capstone.HourlyIntensities` AS HourlyIntensities
+FROM `expanded-bebop-352104.fitbit.HourlyIntensities` AS HourlyIntensities
 GROUP BY HourlyIntensities.Id, HourlyIntensities.ActivityHour
 ORDER BY HourlyIntensities.Id, HourlyIntensities.ActivityHour
 
@@ -225,7 +225,7 @@ SELECT Id, ActivityHour, SUM(Calories) AS Total_Calories,
   EXTRACT(DAYOFWEEK FROM ActivityHour) AS DayName,
   EXTRACT(Hour FROM ActivityHour) AS Hour,
   COUNT(*) AS Duplicates
-FROM `gda-course-4-332812.Capstone.HourlyCalories` AS Hourly_Calories
+FROM `expanded-bebop-352104.fitbit.HourlyCalories` AS Hourly_Calories
 GROUP BY Id, ActivityHour
 ORDER BY Id, ActivityHour
 
@@ -238,7 +238,7 @@ SELECT Id, ActivityHour, SUM(StepTotal) AS Total_Steps,
   EXTRACT(DAYOFWEEK FROM ActivityHour) AS DayName,
   EXTRACT(Hour FROM ActivityHour) AS Hour,
   COUNT(*) AS Duplicates
-FROM `gda-course-4-332812.Capstone.HourlySteps` AS HourlySteps
+FROM `expanded-bebop-352104.fitbit.HourlySteps` AS HourlySteps
 GROUP BY Id, ActivityHour
 ORDER BY Id, ActivityHour
 
@@ -253,7 +253,7 @@ SELECT HourlyIntensities.Id, HourlyIntensities.ActivityHour, SUM(TotalIntensity)
   FORMAT_DATE('%A', DATE(HourlyIntensities.ActivityHour)) AS DayName,
   CAST(EXTRACT(TIME FROM HourlyIntensities.ActivityHour) AS TIME) AS Time,
   EXTRACT(HOUR FROM HourlyIntensities.ActivityHour) AS Hour
-FROM `gda-course-4-332812.Capstone.HourlyIntensities` AS HourlyIntensities
+FROM `expanded-bebop-352104.fitbit.HourlyIntensities` AS HourlyIntensities
 LEFT JOIN 
   (SELECT Id, ActivityHour, SUM(Calories) AS Total_Calories,
   EXTRACT(YEAR FROM ActivityHour) AS Year,
@@ -273,7 +273,7 @@ LEFT JOIN
   EXTRACT(DAY FROM ActivityHour) AS DayName,
   EXTRACT(Hour FROM ActivityHour) AS Hour,
   COUNT(*) AS Duplicates
-  FROM `gda-course-4-332812.Capstone.HourlySteps` AS Hourly_Steps
+  FROM `expanded-bebop-352104.fitbit.HourlySteps` AS Hourly_Steps
   GROUP BY Id, ActivityHour
   ORDER BY Id, ActivityHour) AS HourlySteps
 ON HourlyIntensities.Id = HourlySteps.Id
@@ -293,7 +293,7 @@ EXTRACT(DATE FROM ActivityMinute) AS Date,
   CAST(EXTRACT(TIME FROM ActivityMinute) AS TIME) AS Time,
   EXTRACT(HOUR FROM ActivityMinute) AS Hour,
   COUNT(*) AS Duplicates
-FROM `gda-course-4-332812.Capstone.MinuteMETs` AS MinuteMETS
+FROM `expanded-bebop-352104.fitbit.MinuteMETs` AS MinuteMETS
 GROUP BY Id, ActivityMinute
 ORDER BY Id, ActivityMinute)
 
@@ -338,7 +338,7 @@ WITH DailyActivity AS (
     IFNULL(SUM(TotalSleepRecords),0) AS Total_SleepRecords,
     IFNULL(SUM(TotalMinutesAsleep),0) AS Total_MinutesAsleep,
     IFNULL(SUM(TotalTimeInBed),0) AS Total_TimeInBed,
-  FROM `gda-course-4-332812.Capstone.DailyActivity` AS DailyActivity
+  FROM `expanded-bebop-352104.fitbit.DailyActivity` AS DailyActivity
   LEFT JOIN 
     (SELECT
       Id,
@@ -347,7 +347,7 @@ WITH DailyActivity AS (
       TotalMinutesAsleep,
       TotalTimeInBed,
       COUNT(*) AS Dupes
-    FROM `gda-course-4-332812.Capstone.SleepDay` AS SleepDay1
+    FROM `expanded-bebop-352104.fitbit.SleepDay` AS SleepDay1
     GROUP BY Id,
       SleepDay,
       TotalSleepRecords,
@@ -361,7 +361,7 @@ WITH DailyActivity AS (
       TotalTimeInBed) AS SleepDay1
   ON DailyActivity.Id = SleepDay1.Id
   AND DailyActivity.ActivityDate = SleepDay1.SleepDay
-  LEFT JOIN `gda-course-4-332812.Capstone.UserNumberTable` AS UserNumberTable
+  LEFT JOIN `expanded-bebop-352104.fitbit.UserNumberTable` AS UserNumberTable
   ON DailyActivity.Id = UserNumberTable.Id
   GROUP BY DailyActivity.Id, UserNumberTable.UserNo, DailyActivity.ActivityDate
   ORDER BY DailyActivity.Id, UserNumberTable.UserNo, DailyActivity.ActivityDate
