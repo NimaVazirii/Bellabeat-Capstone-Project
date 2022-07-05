@@ -484,3 +484,51 @@ ON METS.Id = DailyActivity.Id
 AND METS.Date = DailyActivity.ActivityDate
 -- High positive correlation between calories and METs
 ```
+
+### Critical insights based on **Correlation Analyses** :
+- At 0.71, there is a high positive correlation between calories and distance.
+- At 0.64, there is a moderately high positive correlation between calories and distance.
+- At 0.62, there is a moderately high positive correlation between calories and very active minutes.
+- At 0.59, there is a moderately high positive correlation between calories and steps.
+- At 0.30, there is a low positive correlation between calories and fairly active minutes.
+- At 0.29, there is a negligible positive correlation between calories and lightly active minutes.
+- At -0.11, there is a negligible negative correlation between calories and lightly active minutes.
+
+
+## Share 
+In this phase of Analysis, Tableau Public was used to visualize the analysis made on this study.
+
+### Correlations
+
+![Correlations](https://user-images.githubusercontent.com/108308205/177237376-3abd0cf2-0a48-41c6-b7ac-b66a361d4b00.png)
+
+- **Calories vs. Distance** : This figure shows a moderately high positive correlation between calories and distance, which means the higher the distance tracked, the higher the calories burnt.
+- **Calories vs. Steps** : This figure shows a moderately high positive correlation between calories and steps, which means the higher the steps taken, the higher the calories burnt.
+- **Calories vs. METs** : A MET is a ratio of your working metabolic rate relative to your resting metabolic rate. Metabolic rate is the rate of energy expended per unit of time. It’s one way to describe the intensity of an exercise or activity. This figure depicts an upward trajectory on its trendline, indicating that the total METs is highly correlated with calories burned.
+- **Calories vs. Very Active Minutes** : It shows that the higher the time allocated in doing vigorous activities and exercises you do, more calories will be slashed.
+
+### Hourly 
+
+![Hourly](https://user-images.githubusercontent.com/108308205/177237694-31a79c77-9f9c-4d02-ae73-e56b216d77f4.png)
+
+- **Average Calories by Hour** : On average, users burn most of their calories from 5PM-7PM.
+- **Average Intensity by Hour** : Users recorded their highest intensity levels from 5-7 PM.
+- **Average Steps by Hour** : Users walk the most by 5PM-7PM.
+
+### Daily 
+
+![Daily](https://user-images.githubusercontent.com/108308205/177237874-04df95e2-d879-42c5-a75c-20efe87985aa.png)
+
+- **Average Calories by Day** : As we can see in this figure, users on average burn the most calories on a Tuesday and lowest on a Thursday.
+- **Average METs by Day** : This figure shows that users have highest METs on a Tuesday and lowest on a Thursday.
+- **Average Very Active Minutes by Day** : Users do most of their very active activities on a Tuesday and the lowest on a Thursday.
+- **Average Steps by Day** : Users walk the most on a Tuesday and lowest on a Friday.
+
+## Recommendations
+- The dataset of this study is already 6 years old, which means Bellabeat will need to make a much updated and comprehensive version of this dataset. Key points for improvement would be an increase in the number of participants and capture of demographic data such as gender, age, location, height, weight, and so on.
+- Heart Rate and Weight Log Info tables would’ve been useful in this study had there been a large number of participants with records on these tables and is also an integral part of tracking one’s fitness. One way to improve capture of these data points is better integration of heart rate and weight into Bellabeat’s notification system.
+- We saw from the insights of this study that calories burned are positively correlated into steps, distance, METs, and very active minutes. Bellabeat can use these insights to market its product line showing how these variables impact calories burnt and the relevant studies that back it. Bellabeat can also use these insights to create a predictive analytics feature into the product, showing users forecasted calories burnt in accordance with the variables mentioned. This can help motivate users to stay active and achieve their fitness goals, as one insight in this study showed that 81% of the users’ day are spent in a sedentary state.
+- On average, users take 40 minutes to fall asleep when they go to bed, which is higher than most studies recommend. Bellabeat should also integrate this into the notification system in order for the users to be reminded to get sufficient sleep.
+- As the majority of the users spend most of their day in a sedentary state, Bellabeat can notify the user to do some light to moderate activity 1 hour after being in a sedentary state.
+- Users are mostly active from 5-7 PM. In order to ensure that users maintain a healthy lifestyle, Bellabeat can fire up a notification during this time to remind the user to do moderate to intense activities such as walking, running, cycling, etc.
+- Bellabeat should create a reward system in order to encourage users to stay active and motivated, rewarding the users on their milestones and the ability to share these on social media.
