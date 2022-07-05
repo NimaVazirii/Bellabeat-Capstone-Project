@@ -387,3 +387,100 @@ FROM DailyActivity
 - According to [NBC news](https://www.nbcnews.com/health/health-news/how-many-steps-day-should-you-take-study-finds-7-n1278853), the fitness goal of 10,000 steps a day is widely promoted, but a new study suggests that logging even 7,000 daily steps may go a long way toward better health. People who walked at least 7,000 steps a day on average were 50 percent to 70 percent less likely to die of any cause over the next decade, compared with those who took fewer steps. As determined by the above analysis, the average daily steps for our 33 participants is **7,637 steps per day**.  
 - According to [Sleep Foundation](https://www.sleepfoundation.org/women-sleep/do-women-need-more-sleep-than-men), the average adult needs between 7 to 9 hours of sleep per night to feel refreshed. However, research suggests that women tend to sleep just a little bit longer — 11 minutes, to be exact — than men. Based on the outcome of our analysis, the average sleep time for all participants in this reasearch is **418 minutes (7 hours) per day** and the average time spent in bed is **458 minutes (7 Hours and 36 minutes)**. As it follows, it took around 40 minutes for our participants to fall asleep which is an indicator of unsatisfactory sleep based on recent studies from [Sleep Foundation](https://www.sleepfoundation.org/sleep-hygiene/how-is-sleep-quality-calculated#:~:text=For%20quality%20sleep%2C%20it%20should,minutes%20to%20fall%20asleep%20again.).
 - The average Daily Distance covered by all the particiapnts is **5.49 Kilometers** which is shorter than the recommended distance of **8 Kilometers** by [Medical News Today](  https://www.medicalnewstoday.com/articles/how-many-steps-should-you-take-a-day#:~:text=Walking%20is%20a%20form%20of,8%20kilometers%2C%20or%205%20miles.).
+
+The second task of our **Analyze Phase* is to find trends and how strong a relationship is between two variables. The results returned values between -1 and 1:
+- 1 indicates a strong postive relationship.
+- 0 indicates no relationship.
+- -1 indicates a strong negative relationship.
+'''sql
+-- Correlations
+WITH DailyActivity AS (
+  SELECT 
+    DailyActivity.Id,
+    UserNumberTable.UserNo,
+    ActivityDate, 
+    SUM(TotalSteps) AS Total_Steps, 
+    SUM(TotalDistance) AS Total_Distance, 
+    SUM(TrackerDistance) AS Total_Tracker_Distance, 
+    SUM(LoggedActivitiesDistance) AS Total_LoggedActivitiesDistance,	
+    SUM(VeryActiveDistance) AS Total_VeryActiveDistance,	
+    SUM(ModeratelyActiveDistance) AS Total_ModeratelyActiveDistance,	
+    SUM(LightActiveDistance) AS Total_LightActiveDistance,	
+    SUM(SedentaryActiveDistance) AS Total_SedentaryActiveDistance,	
+    SUM(VeryActiveMinutes) AS Total_VeryActiveMinutes,
+    SUM(FairlyActiveMinutes) AS Total_FairlyActiveMinutes,
+    SUM(LightlyActiveMinutes) AS Total_LightlyActiveMinutes,
+    SUM(SedentaryMinutes) AS Total_SedentaryMinutes,
+    SUM(Calories) AS Total_Calories,
+    IFNULL(SUM(TotalSleepRecords),0) AS Total_SleepRecords,
+    IFNULL(SUM(TotalMinutesAsleep),0) AS Total_MinutesAsleep,
+    IFNULL(SUM(TotalTimeInBed),0) AS Total_TimeInBed,
+  FROM `expanded-bebop-352104.fitbit.DailyActivity` AS DailyActivity
+  LEFT JOIN 
+    (SELECT
+      Id,
+      SleepDay,
+      TotalSleepRecords,
+      TotalMinutesAsleep,
+      TotalTimeInBed,
+      COUNT(*) AS Dupes
+    FROM `expanded-bebop-352104.fitbit.SleepDay` AS SleepDay1
+    GROUP BY Id,
+      SleepDay,
+      TotalSleepRecords,
+      TotalMinutesAsleep,
+      TotalTimeInBed
+    HAVING Dupes = 1
+    ORDER BY Id,
+      SleepDay,
+      TotalSleepRecords,
+      TotalMinutesAsleep,
+      TotalTimeInBed) AS SleepDay1
+  ON DailyActivity.Id = SleepDay1.Id
+  AND DailyActivity.ActivityDate = SleepDay1.SleepDay
+  LEFT JOIN `expanded-bebop-352104.fitbit.UserNumberTable` AS UserNumberTable
+  ON DailyActivity.Id = UserNumberTable.Id
+  GROUP BY DailyActivity.Id, UserNumberTable.UserNo, DailyActivity.ActivityDate
+  ORDER BY DailyActivity.Id, UserNumberTable.UserNo, DailyActivity.ActivityDate
+)
+SELECT CORR(Total_Calories, Total_Steps) AS CorrCaloriesSteps,
+  CORR(Total_Calories, Total_Distance) AS CorrCaloriesDistance,
+  CORR(Total_Calories, Total_VeryActiveMinutes) AS CorrCaloriesVeryActive,
+  CORR(Total_Calories, Total_FairlyActiveMinutes) AS CorrCaloriesFairlyActive,
+  CORR(Total_Calories, Total_LightlyActiveMinutes) AS CorrCaloriesLightlyActive,
+  CORR(Total_Calories, Total_SedentaryMinutes) AS CorrCaloriesSedentary
+FROM DailyActivity
+-- high positive correlation between daily calories and steps
+-- high positive correlation between daily calories and distance
+-- high positive correlation between daily calories and very active minutes
+-- low positive correlation between daily calories and fairly active minutes
+-- low positive correlation between daily calories and lightly active minutes
+-- low negative correlation between daily calories and sedentary minutes
+
+SELECT CORR(Calories, Total_METs) AS CorrCaloriesMETs
+FROM (WITH Minute_METs AS (SELECT Id, SUM(METs) AS METs,
+EXTRACT(DATE FROM ActivityMinute) AS Date,
+  EXTRACT(YEAR FROM ActivityMinute) AS Year,
+  EXTRACT(MONTH FROM ActivityMinute) AS Month,
+  EXTRACT(DAY FROM ActivityMinute) AS Day,
+  FORMAT_DATE('%A', DATE(ActivityMinute)) AS DayName,
+  CAST(EXTRACT(TIME FROM ActivityMinute) AS TIME) AS Time,
+  EXTRACT(HOUR FROM ActivityMinute) AS Hour,
+  COUNT(*) AS Duplicates
+FROM `expanded-bebop-352104.fitbit.MinuteMETs` AS MinuteMETS
+GROUP BY Id, ActivityMinute
+ORDER BY Id, ActivityMinute)
+
+SELECT Id, Date, SUM(METs) AS Total_METs, ROUND(AVG(METs), 2) AS Avg_METs,
+  EXTRACT(YEAR FROM Date) AS Year,
+  EXTRACT(MONTH FROM Date) AS Month,
+  EXTRACT(DAY FROM Date) AS Day,
+  FORMAT_DATE('%A', DATE(Date)) AS DayName
+FROM Minute_METs
+GROUP BY Id, Date
+) AS METS
+LEFT JOIN `expanded-bebop-352104.fitbit.DailyActivity` AS DailyActivity
+ON METS.Id = DailyActivity.Id
+AND METS.Date = DailyActivity.ActivityDate
+-- High positive correlation between calories and METs
+```
