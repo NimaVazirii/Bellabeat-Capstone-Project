@@ -392,7 +392,7 @@ The second task of our **Analyze Phase* is to find trends and how strong a relat
 - 1 indicates a strong postive relationship.
 - 0 indicates no relationship.
 - -1 indicates a strong negative relationship.
-'''sql
+```sql
 -- Correlations
 WITH DailyActivity AS (
   SELECT 
